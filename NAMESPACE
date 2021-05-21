@@ -1,0 +1,8 @@
+exportPattern("^[[:alpha:]]+")
+importFrom("stats","aggregate", "as.formula", "contrasts","model.matrix", "update","lm")
+importFrom("MASS","ginv")
+importFrom("data.table","setnames")
+importFrom("lme4","lmer","ranef","VarCorr","fixef")
+importFrom("qdap","genXtract")
+importFrom("Matrix","bdiag")
+importFrom("JWileymisc","modelPerformance")
