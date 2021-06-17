@@ -1,9 +1,9 @@
-bcd338925102fcae299ca1af6860b81e *DESCRIPTION
+92958b2f4967de53db72c2867beee310 *DESCRIPTION
 5a18ecb65c09dca1f51da1cf67f2b686 *NAMESPACE
-9b6cc7322f2e26a9bad9e40109056559 *R/mind.unit.R
+56e19381452d6d5b177325483a44653d *R/mind.unit.R
 ca6d5278b04c487e9d6919cea840fd4f *data/data_s.rda
 e746b01bd2ea69829fa4ee99ba8f9657 *data/datalist
 99fbedc5b9f27d997007f1ef38e4152f *data/univ.rda
 e3cc7302995f75d31b47767446b41ec6 *man/data_s.Rd
-5f7968571faae7eced1cf80c75606b6f *man/mind.unit.Rd
+7b94810206e6dd9dbb6e6144454e536e *man/mind.unit.Rd
 8e3a8ff32e28b180296417e4b0fab533 *man/univ.Rd

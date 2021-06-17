@@ -50,8 +50,8 @@ Object of class \code{list}. The list contains 13 objects:
 \item{r_effect}{a list containing the random effects for each modes of the \code{responses} and for each \code{broadarea} (if any).}
 \item{beta}{a data frame with named columns of coefficents.}
 \item{mod_performance}{a list containing fit indices, absolute error metrics, tests of overall model significance (taking into account only the \code{fixed.terms}) for each modes of the \code{responses} and for each \code{broadarea} (if any).}
-\item{sigma_e}{a data frame with the residuals variance \eqn{\sigma_e^2} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
-\item{sigma_u}{a data frame with the random effects variance \eqn{\sigma_u^2} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
+\item{sigma_e}{a data frame with the residuals standard deviation \eqn{\sigma_e} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
+\item{sigma_u}{a data frame with the random effects standard deviation \eqn{\sigma_u} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
 \item{ICC}{a data frame with the Intraclass Coefficent Correlation for each modes of the \code{responses} and for each \code{broadarea} (if any).
 The population ICC in this framework is:
 \deqn{ICC = \frac{\sigma_u^2}{(\sigma_u^2+\sigma_e^2)}}{%
