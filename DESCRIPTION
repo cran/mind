@@ -1,7 +1,7 @@
 Package: mind
 Type: Package
 Title: Multivariate Model Based Inference for Domains
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: 
     c(person(given = "Michele",
              family = "D'Alo'",
@@ -15,7 +15,7 @@ Authors@R:
              family = "Fasulo",
              role = c("aut", "cre"),
              email = "fasulo@istat.it"))
-Depends: R (>= 3.5.0), data.table, MASS, lme4, qdap, Matrix
+Depends: R (>= 3.5.0), data.table, MASS, qdap, Matrix
 Imports: dplyr,stats, JWileymisc
 Description: Allows users to produce estimates and MSE for multivariate variables using Linear Mixed Model. The package follows the approach of Datta, Day and Basawa (1999) <doi:10.1016/S0378-3758(98)00147-5>.
 License: EUPL
@@ -27,6 +27,6 @@ Author: Michele D'Alo' [aut],
 Maintainer: Andrea Fasulo <fasulo@istat.it>
 BuildResaveData: best
 RoxygenNote: 7.1.1
-Packaged: 2021-06-17 09:28:37 UTC; UTENTE
+Packaged: 2021-06-24 10:04:14 UTC; UTENTE
 Repository: CRAN
-Date/Publication: 2021-06-17 10:10:05 UTC
+Date/Publication: 2021-06-24 10:30:02 UTC

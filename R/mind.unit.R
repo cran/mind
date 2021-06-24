@@ -22,6 +22,9 @@ sigma_u_fin<-list()
 ICC<-list()
 mod_perf<-list()
 
+data<-data.frame(data)
+universe<-data.frame(universe)
+
 id<-"supp_id"
 universe[,id]<-1:nrow(universe)
 data[,id]<-1:nrow(data)
@@ -930,67 +933,67 @@ sigma_u_start<-cbind(sigma_u, fatt=c(1:n_z), iter=rep(0,n_z))
 rho_u_start<-cbind(rho_u, fatt=c(1:n_z), iter=rep(0,n_z))
 sigma_0_start<-sigma_00
 
-mod_lmer<-list()
+# mod_lmer<-list()
+# 
+#  for (i in 1:length(y_y))
+# {
+#  if (any(x_i==1)){
+#     formula_new<-update(formula,
+#                               as.formula(paste((y_y)[i],"~.- ",paste("factor(",names(x_i[x_i==1]),")",sep=""),sep="")))
+#   }else{formula_new<-update(formula,as.formula(paste((y_y)[i],"~.-1",sep="")))
+#     }
+# mod_lmer[[i]]<-lmer(formula_new,data=data)
+# }
+# 
+# 
+# I_C<-diag(n_y)
+# 
+# for (m in 1 : n_y)
+# {
+# app<-kronecker(mod_lmer[[m]]@beta, I_C[m,], FUN = "*")
+# if (m==1) (beta_omega_lmer<-app)
+# if (m>1)  (beta_omega_lmer<-beta_omega_lmer+app)
+# }
+# 
+# for (m in 1 : n_y)
+# {
+# app1<-as.data.frame(ranef(mod_lmer[[m]]))
+# app1<-app1[order(app1$grpvar),]
+# app1<-app1$condval
+# app<-kronecker(app1, I_C[m,], FUN = "*")
+#   if (m==1) (u_omega_lmer<-app)
+#   if (m>1)  (u_omega_lmer<-u_omega_lmer+app)
+# }
+# 
+# 
+# for (m in 1 : n_y)
+# {
+# vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
+#   app<-vc_c[order(vc_c$grp),][-1,4]/vc_c[order(vc_c$grp),][1,4]
+#   if (m==1) (phi_u_lmer2<-app)
+#   if (m>1)  (phi_u_lmer2<-cbind(phi_u_lmer2,app))
+# }
+# colnames(phi_u_lmer2)<-paste("phi_u_lmer",1:n_y,sep="")
+# phi_u_lmer<-phi_u_lmer2
+# 
+# for (m in 1 : n_y)
+# {
+# vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
+# mod_lmer[[m]]@theta
+# app<-vc_c[nrow(vc_c),4]
+# if (m==1) (sigma_0_lmer<-app)
+# if (m>1) (sigma_0_lmer<-cbind(sigma_0_lmer,app))
+# }
+# colnames(sigma_0_lmer)<-paste("sigma_0_lmer",1:n_y,sep="")
+# 
+# for (m in 1 : n_z)
+# {
+# app<-t(t(sigma_0_lmer)*t(phi_u_lmer)[,m])
+# if (m==1) (sigma_u_lmer<-app)
+# if (m>1) (sigma_u_lmer<-rbind(sigma_u_lmer,app))
+#}
 
- for (i in 1:length(y_y))
-{
- if (any(x_i==1)){
-    formula_new<-update(formula,
-                              as.formula(paste((y_y)[i],"~.- ",paste("factor(",names(x_i[x_i==1]),")",sep=""),sep="")))
-  }else{formula_new<-update(formula,as.formula(paste((y_y)[i],"~.-1",sep="")))
-    }
-mod_lmer[[i]]<-lmer(formula_new,data=data)
-}
-
-
-I_C<-diag(n_y)
-
-for (m in 1 : n_y)
-{
-app<-kronecker(mod_lmer[[m]]@beta, I_C[m,], FUN = "*")
-if (m==1) (beta_omega_lmer<-app)
-if (m>1)  (beta_omega_lmer<-beta_omega_lmer+app)
-}
-
-for (m in 1 : n_y)
-{
-app1<-as.data.frame(ranef(mod_lmer[[m]]))
-app1<-app1[order(app1$grpvar),]
-app1<-app1$condval
-app<-kronecker(app1, I_C[m,], FUN = "*")
-  if (m==1) (u_omega_lmer<-app)
-  if (m>1)  (u_omega_lmer<-u_omega_lmer+app)
-}
-
-
-for (m in 1 : n_y)
-{
-vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
-  app<-vc_c[order(vc_c$grp),][-1,4]/vc_c[order(vc_c$grp),][1,4]
-  if (m==1) (phi_u_lmer2<-app)
-  if (m>1)  (phi_u_lmer2<-cbind(phi_u_lmer2,app))
-}
-colnames(phi_u_lmer2)<-paste("phi_u_lmer",1:n_y,sep="")
-phi_u_lmer<-phi_u_lmer2
-
-for (m in 1 : n_y)
-{
-vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
-mod_lmer[[m]]@theta
-app<-vc_c[nrow(vc_c),4]
-if (m==1) (sigma_0_lmer<-app)
-if (m>1) (sigma_0_lmer<-cbind(sigma_0_lmer,app))
-}
-colnames(sigma_0_lmer)<-paste("sigma_0_lmer",1:n_y,sep="")
-
-for (m in 1 : n_z)
-{
-app<-t(t(sigma_0_lmer)*t(phi_u_lmer)[,m])
-if (m==1) (sigma_u_lmer<-app)
-if (m>1) (sigma_u_lmer<-rbind(sigma_u_lmer,app))
-}
-
-colnames(sigma_u_lmer)<-paste("sigma_u_lmer",1:n_y,sep="")
+# colnames(sigma_u_lmer)<-paste("sigma_u_lmer",1:n_y,sep="")
 
 # if (modelli==1) {n_iter<-1
 #                  sigma_0<-sigma_0_lmer
@@ -1030,21 +1033,24 @@ colnames(sigma_u_lmer)<-paste("sigma_u_lmer",1:n_y,sep="")
 
 #if (modelli==3) {
 n_iter<-max_iter
-sigma_0<-t(rep(1,n_y)*0.15)
-sigma_0<-cbind(sigma_0,sigma_0_start[,ncol(sigma_0_start)])
-colnames(sigma_0)<-c(paste("sigma_0",1:n_y,sep=""),"iter")
+# sigma_0<-t(rep(1,n_y)*0.15)
+# sigma_0<-cbind(sigma_0,sigma_0_start[,ncol(sigma_0_start)])
+# colnames(sigma_0)<-c(paste("sigma_0",1:n_y,sep=""),"iter")
+sigma_0<-sigma_0_start
 
-colf<-ncol(phi_u_start)
-phi_u<-matrix(0.05,nrow = n_z,ncol = n_y)
-phi_u_start<-as.data.frame(phi_u_start)
-phi_u<-cbind(phi_u,phi_u_start[,(colf-1):colf]) ##### PROBLEMA
-colnames(phi_u)<-c(paste("phi_u",1:n_y,sep=""),"fatt","iter")
+# colf<-ncol(phi_u_start)
+# phi_u<-matrix(0.05,nrow = n_z,ncol = n_y)
+# phi_u_start<-as.data.frame(phi_u_start)
+# phi_u<-cbind(phi_u,phi_u_start[,(colf-1):colf]) ##### PROBLEMA
+# colnames(phi_u)<-c(paste("phi_u",1:n_y,sep=""),"fatt","iter")
+phi_u<-phi_u_start
 
-cols<-ncol(sigma_u_start)
-sigma_u<-sigma_u_lmer
-sigma_u<-cbind(sigma_u,sigma_u_start[,(cols-1):cols])
-colnames(sigma_u)<-c(paste("sigma_u",1:n_y,sep=""),"fatt","iter")
-
+# cols<-ncol(sigma_u_start)
+# #sigma_u<-sigma_u_lmer
+# sigma_u<-matrix(rep(20,n_y),1,n_y)
+# sigma_u<-cbind(sigma_u,sigma_u_start[,(cols-1):cols])
+# colnames(sigma_u)<-c(paste("sigma_u",1:n_y,sep=""),"fatt","iter")
+sigma_u<-sigma_u_start
 
 #}
 
@@ -1630,7 +1636,7 @@ rm(list=setdiff(ls(), c("stima_omega_XZ_eblup_dom","stima_omega_XZ_proj_dom","st
                         "data","data_all","macro","universe","univ_all","ba","bba","broadarea","dom","formula","id","weights",
                         "max_iter","max_diff","phi_u0","rho_u0","REML","domains2","myfun",
                         "mse_EBLUP","Z_piuu","cv_EBLUP","u_omegaa","n_z","z_i","n_y","n_d","y_y","z_z","x_x","n_x","x_i","beta_omega_broad",
-                        "r_effect","sigma_e","sigma_u_fin","ICC","z_i_list","mod_lmer","mod_perf","int1")))
+                        "r_effect","sigma_e","sigma_u_fin","ICC","z_i_list","mod_perf","int1")))
   }
 
 stima_omega_XZ_eblup<-do.call(rbind,stima_omega_XZ_eblup_dom)
@@ -1672,8 +1678,9 @@ if(any(sort(x_i)==1)){nomi_beta<-sort(x_i)
   nomi_beta[2:length(nomi_beta)]<-nomi_beta[2:length(nomi_beta)]-1
   }
 beta_omega_broad<-do.call(cbind,beta_omega_broad)
-beta_omega_broad<-data.frame(cbind(y=rep(y_y,time=length(names(fixef(mod_lmer[[1]])))),
-
+#beta_omega_broad<-data.frame(cbind(y=rep(y_y,time=length(names(fixef(mod_lmer[[1]])))),
+beta_omega_broad<-data.frame(cbind(y=rep(y_y,time=dim(beta_omega_broad)[1]/n_y),
+                                   
                                    fixed=paste(rep(rep(names(nomi_beta),times=nomi_beta),each=n_y),
                                                rep(c(seq(nomi_beta[1]),unlist(apply(data.frame(nomi_beta[2:length(nomi_beta)]),1,seq))+1),each=n_y),sep=""),
 
