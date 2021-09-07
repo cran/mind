@@ -121,12 +121,6 @@ f1<-""
 f<-paste(f,f1,sep="")
 f<-as.formula(f)
 
-######## QUI!
-# app<-paste(names(sort(x_i)), sep="", collapse="+")
-# ff<-as.formula(paste("~",app,sep=""))
-# if (any(x_i==1)) {beta_name<-model.matrix(ff,as.data.frame(data),contrasts.arg = lapply(as.data.frame(data), contrasts, contrasts=TRUE))
-# } else {X_p<-model.matrix( update(ff,~.-1),as.data.frame(P_x_appo),contrasts.arg = lapply(as.data.frame(P_x_appo), contrasts, contrasts=TRUE))}
-########
 data_yq<-as.data.frame((data[,c(3:(2+n_y))]^2)*data[,c(ncol(data))])
 
 data_yq<-setnames(data_yq,old=colnames(data_yq), new = c(paste("yq",1:n_y,sep="")))
@@ -377,7 +371,6 @@ if (n_x==1){
 
   M_x_r1<-as.data.frame(M_x_r1)
   M_x_fin<-as.data.frame(cbind(t(M_x_r1[,-c(1:sort(x_i)[1])]),M_x))
-  #colnames(M_x_fin)<-names(M_x_r1)
   M_x_fin<-rbind(M_x_r1,M_x_fin)
   M_x<-as.matrix(M_x_fin)
 }
@@ -663,7 +656,6 @@ U_xzd<-aggregate(data=univ_xzd,fd,sum)
 U_xzd<-U_xzd[,c((1:(n_x+n_z+1)),ncol(U_xzd))]
 names(U_xzd)[1]<-dom
 names(U_xzd)[2:(n_x+n_z+1)]<-paste("delta",1:(n_x+n_z),sep="")
-#length(with(data=U_xzd,table(dom)))
 
 names(U_xzd)[ncol(U_xzd)]<-c("N")
 XZ_dom<-(aggregate(U_xzd[,ncol(U_xzd)], list(dom=U_xzd[,dom]),sum))[1]
@@ -933,126 +925,11 @@ sigma_u_start<-cbind(sigma_u, fatt=c(1:n_z), iter=rep(0,n_z))
 rho_u_start<-cbind(rho_u, fatt=c(1:n_z), iter=rep(0,n_z))
 sigma_0_start<-sigma_00
 
-# mod_lmer<-list()
-# 
-#  for (i in 1:length(y_y))
-# {
-#  if (any(x_i==1)){
-#     formula_new<-update(formula,
-#                               as.formula(paste((y_y)[i],"~.- ",paste("factor(",names(x_i[x_i==1]),")",sep=""),sep="")))
-#   }else{formula_new<-update(formula,as.formula(paste((y_y)[i],"~.-1",sep="")))
-#     }
-# mod_lmer[[i]]<-lmer(formula_new,data=data)
-# }
-# 
-# 
-# I_C<-diag(n_y)
-# 
-# for (m in 1 : n_y)
-# {
-# app<-kronecker(mod_lmer[[m]]@beta, I_C[m,], FUN = "*")
-# if (m==1) (beta_omega_lmer<-app)
-# if (m>1)  (beta_omega_lmer<-beta_omega_lmer+app)
-# }
-# 
-# for (m in 1 : n_y)
-# {
-# app1<-as.data.frame(ranef(mod_lmer[[m]]))
-# app1<-app1[order(app1$grpvar),]
-# app1<-app1$condval
-# app<-kronecker(app1, I_C[m,], FUN = "*")
-#   if (m==1) (u_omega_lmer<-app)
-#   if (m>1)  (u_omega_lmer<-u_omega_lmer+app)
-# }
-# 
-# 
-# for (m in 1 : n_y)
-# {
-# vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
-#   app<-vc_c[order(vc_c$grp),][-1,4]/vc_c[order(vc_c$grp),][1,4]
-#   if (m==1) (phi_u_lmer2<-app)
-#   if (m>1)  (phi_u_lmer2<-cbind(phi_u_lmer2,app))
-# }
-# colnames(phi_u_lmer2)<-paste("phi_u_lmer",1:n_y,sep="")
-# phi_u_lmer<-phi_u_lmer2
-# 
-# for (m in 1 : n_y)
-# {
-# vc_c<-as.data.frame(VarCorr(mod_lmer[[m]]))
-# mod_lmer[[m]]@theta
-# app<-vc_c[nrow(vc_c),4]
-# if (m==1) (sigma_0_lmer<-app)
-# if (m>1) (sigma_0_lmer<-cbind(sigma_0_lmer,app))
-# }
-# colnames(sigma_0_lmer)<-paste("sigma_0_lmer",1:n_y,sep="")
-# 
-# for (m in 1 : n_z)
-# {
-# app<-t(t(sigma_0_lmer)*t(phi_u_lmer)[,m])
-# if (m==1) (sigma_u_lmer<-app)
-# if (m>1) (sigma_u_lmer<-rbind(sigma_u_lmer,app))
-#}
-
-# colnames(sigma_u_lmer)<-paste("sigma_u_lmer",1:n_y,sep="")
-
-# if (modelli==1) {n_iter<-1
-#                  sigma_0<-sigma_0_lmer
-#                  sigma_0<-cbind(sigma_0,sigma_0_start[,ncol(sigma_0_start)])
-#                  colnames(sigma_0)<-c(paste("sigma_0",1:n_y,sep=""),"iter")
-#
-#                  colf<-ncol(phi_u_start)
-#                  phi_u<-phi_u_lmer
-#                  phi_u<-cbind(phi_u,phi_u_start[,(colf-1):colf])
-#                  colnames(phi_u)<-c(paste("phi_u",1:n_y,sep=""),"fatt","iter")
-#
-#
-#                  cols<-ncol(sigma_u_start)
-#                  sigma_u<-sigma_u_lmer
-#                  sigma_u<-cbind(sigma_u,sigma_u_start[,(cols-1):cols])
-#                  colnames(sigma_u)<-c(paste("sigma_u",1:n_y,sep=""),"fatt","iter")
-#
-#                  }
-
-# if (modelli==2) {n_iter<-max_iter
-#                  sigma_0<-sigma_0_lmer
-#                  sigma_0<-cbind(sigma_0,sigma_0_start[,ncol(sigma_0_start)])
-#                  colnames(sigma_0)<-c(paste("sigma_0",1:n_y,sep=""),"iter")
-#
-#                  colf<-ncol(phi_u_start)
-#                  phi_u<-phi_u_lmer
-#                  phi_u<-cbind(phi_u,phi_u_start[,(colf-1):colf])
-#                  colnames(phi_u)<-c(paste("phi_u",1:n_y,sep=""),"fatt","iter")
-#
-#
-#                  cols<-ncol(sigma_u_start)
-#                  sigma_u<-sigma_u_lmer
-#                  sigma_u<-cbind(sigma_u,sigma_u_start[,(cols-1):cols])
-#                  colnames(sigma_u)<-c(paste("sigma_u",1:n_y,sep=""),"fatt","iter")
-#
-#                  }
-
-#if (modelli==3) {
 n_iter<-max_iter
-# sigma_0<-t(rep(1,n_y)*0.15)
-# sigma_0<-cbind(sigma_0,sigma_0_start[,ncol(sigma_0_start)])
-# colnames(sigma_0)<-c(paste("sigma_0",1:n_y,sep=""),"iter")
 sigma_0<-sigma_0_start
-
-# colf<-ncol(phi_u_start)
-# phi_u<-matrix(0.05,nrow = n_z,ncol = n_y)
-# phi_u_start<-as.data.frame(phi_u_start)
-# phi_u<-cbind(phi_u,phi_u_start[,(colf-1):colf]) ##### PROBLEMA
-# colnames(phi_u)<-c(paste("phi_u",1:n_y,sep=""),"fatt","iter")
 phi_u<-phi_u_start
-
-# cols<-ncol(sigma_u_start)
-# #sigma_u<-sigma_u_lmer
-# sigma_u<-matrix(rep(20,n_y),1,n_y)
-# sigma_u<-cbind(sigma_u,sigma_u_start[,(cols-1):cols])
-# colnames(sigma_u)<-c(paste("sigma_u",1:n_y,sep=""),"fatt","iter")
 sigma_u<-sigma_u_start
 
-#}
 
 i<-1
 dif<-0.9
@@ -1123,7 +1000,7 @@ while ( i<=n_iter && dif>=max_diff) {
   T_s<-T_star+T_star%*%t(M_xz_kr)%*%M_x_inv_omega%*%M_xz_kr%*%T_star
 
 if (REML==FALSE) (T_s=T_star)
-T_s[,1]-T_star[,1]
+T_s[,1]-T_star[,1] #?
 
   diag_sigma_0<-diag(sigma_0[1:n_y])
   diag_sigma_0_kr<-kronecker(diag(sum(Q)), diag_sigma_0, FUN = "*")
@@ -1206,39 +1083,54 @@ T_s[,1]-T_star[,1]
 
 }
 
-# if (modelli==1) {
-#   phi_j[phi_j$iter==max(phi_j$iter),c(1:n_y)]=phi_u_lmer
-#   sigma_j[sigma_j$iter==max(sigma_j$iter),c(1:n_y)]=sigma_0_lmer
-# }
-
-
 stima_omega_X_proj<-X_piu_kr%*%beta_omega
 
 u_omega_sample<-u_omega
-r<-sum(apply(data[z_z],2,myfun))
-r1<-apply(data[z_z[1]],2,myfun)
 
+u_omega_mat<-matrix(u_omega_sample,nrow=sum(apply(data[z_z],2,myfun)),ncol=n_y,byrow=TRUE)
 
-u_omega_mat<-matrix(u_omega_sample,nrow=r,ncol=n_y,byrow=TRUE)
-
-domeff<-data.frame(dom=univ_xzd[,dom],z1=univ_xzd[,z_z[1]])
-domeff<-aggregate(domeff$z1,by=list(dom=domeff$dom),unique)
-colnames(domeff)[2]<-"z1"
-domeff_c<-data.frame(dom=data_xzd[,dom],z1=data_xzd[,z_z[1]])
-domeff_c<-aggregate(domeff_c$z1,by=list(dom=domeff_c$dom),unique)
-colnames(domeff_c)[2]<-"z1"
-u_omega_mat_z1<-cbind(z1=unique(domeff_c$z1),u_omega_mat[1:r1,])
-u_omega_mat_z1<-merge(domeff,u_omega_mat_z1,by="z1",all.x=T)
-
-u_omega_ext<-u_omega_mat_z1[,-1]
-u_omega_ext1<-u_omega_ext[,-1]
-u_omega_ext1[is.na(u_omega_ext1)]<-0
-u_omega_ext1<-as.matrix(u_omega_ext1)
-u_omega=u_omega_ext1
-if (r>r1) (u_omega=rbind(u_omega_ext1,u_omega_mat[(r1+1):r,]))
-u_omega<-as.numeric(t(u_omega))
-u_omega<-as.matrix(u_omega)
-if (length(unique(data_xzd[,z_z[1]]))<length(unique(data_xzd[,dom]))) (u_omega=u_omega_sample)
+if (sum(apply(data[z_z],2,myfun))==sum(apply(univ_xzd[z_z],2,myfun))) 
+{u_omega=u_omega_sample}else{ 
+  
+  diversi<-names(which(apply(data[z_z],2,myfun)!=apply(univ_xzd[z_z],2,myfun)))
+  zz_c<-data.frame(t(apply(data[diversi],2,myfun)))
+  endpoint<-c(0,cumsum(as.vector(t(zz_c))))
+  
+  u_omegai<-list()
+  
+  for (i in 1:length(diversi))
+    
+  {
+    
+    domeff<-data.frame(dom=univ_xzd[,diversi[i]],z1=univ_xzd[,diversi[i]])
+    domeff<-aggregate(domeff$z1,by=list(dom=domeff$dom),unique)
+    colnames(domeff)[2]<-"z1"
+    domeff_c<-data.frame(dom=data_xzd[,diversi[i]],z1=data_xzd[,diversi[i]])
+    domeff_c<-aggregate(domeff_c$z1,by=list(dom=domeff_c$dom),unique)
+    colnames(domeff_c)[2]<-"z1"
+    
+    u_omega_mat_z1<-cbind(z1=unique(domeff_c$z1),u_omega_mat[(endpoint[i]+1):endpoint[i+1],])
+    
+    u_omega_mat_z1<-merge(domeff,u_omega_mat_z1,by="z1",all.x=T)
+    
+    u_omega_ext<-u_omega_mat_z1[,-1]
+    u_omega_ext1<-u_omega_ext[,-1]
+    u_omega_ext1[is.na(u_omega_ext1)]<-0
+    u_omega_ext1<-as.matrix(u_omega_ext1)
+    u_omegai[[i]]<-u_omega_ext1
+    
+  }
+  
+  u_omega<-do.call(rbind,u_omegai)
+  rm(u_omegai)
+  
+  if(any(names(zz_c)!=z_z)){
+  u_omega=rbind(u_omega,u_omega_mat[(endpoint[length(endpoint)]+1):nrow(u_omega_mat),])
+  }
+  u_omega<-as.numeric(t(u_omega))
+  u_omega<-as.matrix(u_omega)
+    
+    }
 
 stima_omega_Z_proj<-Z_piu_kr%*%u_omega
 stima_omega_XZ_proj<-stima_omega_X_proj+stima_omega_Z_proj
@@ -1305,22 +1197,20 @@ r_d$W_r=r_d$W-r_d$w
 r_d$W_inv_r=r_d$W_inv-r_d$w_inv
 r_d$N_r=r_d$N-r_d$n
 
-ndom<-ncol(Zr_piu)-(ncol(Zr_piu)-nrow(Zr_piu))
-n_mod_fatt<-ncol(Zr_piu)
-
-Zr_piu1<-Zr_piu[,c(1:r1)]
-if (r>r1) {Zr_piu2=Zr_piu[,c((r1+1):r)]}
+Zr_piu1<-Zr_piu[,c(1:apply(data[z_z],2,myfun)[1])]
+if (sum(apply(data[z_z],2,myfun))>apply(data[z_z],2,myfun)[1]) {Zr_piu2=Zr_piu[,c((apply(data[z_z],2,myfun)[1]+1):sum(apply(data[z_z],2,myfun)))]}
 TT<-as.matrix(T_star)
 Zr_piu_dom<-cbind(domains2,Zr_piu1)
 
 
-if (r>r1) {
-  Zr_piu2<-cbind(dom=domeff$dom, Zr_piu2)
+if (sum(apply(data[z_z],2,myfun))>apply(data[z_z],2,myfun)[1]) {
+  Zr_piu2<-cbind(domains2, Zr_piu2)
   colnames(Zr_piu2)[1]<-dom
 }
-if (r>r1) {Zr_piu_dom<-merge(Zr_piu2, Zr_piu_dom, by=dom, all.x=TRUE)}
+if (sum(apply(data[z_z],2,myfun))>apply(data[z_z],2,myfun)[1]) {Zr_piu_dom<-merge(Zr_piu2, Zr_piu_dom, by=dom, all.x=TRUE)}
 
 Zr_piu_dom<-Zr_piu_dom[,-1]
+
 Zr_piu_dom<-as.matrix(Zr_piu_dom)
 Zr_piu_dom_kr<-kronecker(Zr_piu_dom, diag(n_y), FUN = "*")
 Zr_piu_dom_kr<-as.matrix(Zr_piu_dom_kr)
@@ -1534,7 +1424,6 @@ mat_jc<-M_z_omega[a1:a2,a1:a2]%*%F_jc
   amp=2*n_z*n_y
 
 for (rr1 in 1:D){
-    initial.time_mse <- proc.time()
     ar<-amp*(rr1-1)+1
     br<-amp*rr1
 
@@ -1556,8 +1445,7 @@ for (rr1 in 1:D){
 
     if (rr1==1) (G3_fin=G3)
     if (rr1>1)  (G3_fin=cbind(G3_fin,G3))
-    final.time_mse <- proc.time()
-    time_mse<-final.time_mse-initial.time_mse
+
   }
     G3_fin=diag(G3_fin)
 
@@ -1611,10 +1499,10 @@ Z_piuu[[ba]]<-Z_piu
 cv_BLUP<-100*mse_BLUP11^0.5/stima_omega_XZ_eblup
 cv_EBLUP[[ba]]<-100*mse_EBLUP11^0.5/stima_omega_XZ_eblup
 
-cv_g1<-100*g1^0.5/stima_omega_XZ_eblup
-cv_g2<-100*g2^0.5/stima_omega_XZ_eblup
-cv_g3<-100*g3^0.5/stima_omega_XZ_eblup
-cv_g4<-100*g4^0.5/stima_omega_XZ_eblup
+# cv_g1<-100*g1^0.5/stima_omega_XZ_eblup
+# cv_g2<-100*g2^0.5/stima_omega_XZ_eblup
+# cv_g3<-100*g3^0.5/stima_omega_XZ_eblup
+# cv_g4<-100*g4^0.5/stima_omega_XZ_eblup
 
 n_d[[ba]]<-aggregate(as.formula(paste(weights,"~",dom,sep="")),data,sum)
 colnames(n_d[[ba]])<-c("dom","nd")
