@@ -1493,7 +1493,8 @@ mse_BLUP<-matrix(mse_BLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
 
 mse_EBLUP1<-diag(MCPE_EBLUP)
 mse_EBLUP11<-matrix(mse_EBLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
-mse_EBLUP[[ba]]<-matrix(mse_EBLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
+#mse_EBLUP[[ba]]<-matrix(mse_EBLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
+mse_EBLUP[[ba]]<-cbind(mse_EBLUP11,g1,g2,g3)
 
 Z_piuu[[ba]]<-Z_piu
 cv_BLUP<-100*mse_BLUP11^0.5/stima_omega_XZ_eblup
@@ -1535,7 +1536,11 @@ stima_omega_X_proj<-do.call(rbind,stima_omega_X_proj_dom)
 colnames(stima_omega_X_proj)[2:(1+n_y)]<-y_y
 mse_EBLUP<-do.call(rbind,mse_EBLUP)
 mse_EBLUP<-cbind(dom=stima_omega_XZ_eblup[,1],mse_EBLUP)
-colnames(mse_EBLUP)[2:(1+n_y)]<-y_y
+colnames(mse_EBLUP)[-1]<-c(paste("mse_",y_y,sep=""),
+paste("G1_",y_y,sep=""),
+paste("G2_",y_y,sep=""),
+paste("G3_",y_y,sep=""))
+
 
 Z_piuua1<-aggregate(as.formula(paste(weights,"~",dom,sep="")),universe,sum)
 cv_EBLUP<-do.call(rbind,cv_EBLUP)
