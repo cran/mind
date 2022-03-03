@@ -1601,6 +1601,7 @@ out<-list(EBLUP=stima_omega_XZ_eblup,PROJ=stima_omega_XZ_proj,SYNTH=stima_omega_
           mse_EBLUP=as.data.frame(mse_EBLUP),cv_EBLUP=as.data.frame(cv_EBLUP),Nd=as.data.frame(Nd),nd=nd,r_effect=r_effect,
           beta=beta_omega_broad,mod_performance=mod_perf,sigma_e=sigma_e,sigma_u=sigma_u_fin,ICC=ICC)
 
+class(out)<-"mind"
 return(out)
 
 }

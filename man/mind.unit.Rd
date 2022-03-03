@@ -39,11 +39,11 @@ Non\code{-NULL weights} can be used to indicate that different observations have
 }
 
 \value{
-Object of class \code{list}. The list contains 13 objects:
+\code{mind.unit} returns an object of class "\code{mind}". The object is a list contains 13 objects:
 \item{EBLUP}{a data frame containing for the domain of interest the EBLUP estimates [Rao, Molina 2015] for the m-modalities  of the responce variable.}
 \item{PROJ}{a data frame containing for the domain of interest the Projection estimates [Kim, Rao 2011] for the m-modalities of the responce variables.}
 \item{SYNTH}{a data frame containing for the domain of interest the Synthetic estimates [Rao, Molina 2015] for the m-modalities of the responce variable.}
-\item{mse_EBLUP}{a data frame containing for the domain of interest the MSE, with the single components G1, G2 and G3, for the EBLUP estimator for the m-modalities of the variables of interest.}
+\item{mse_EBLUP}{a data frame containing for the domain of interest the MSE, along with the single components G1, G2 and G3, for the EBLUP estimator for the m-modalities of the variables of interest.}
 \item{cv_EBLUP}{a data frame containing the coefficent of variation for the EBLUP estimator for the m-modalities of the variable of interest.}
 \item{Nd}{a data frame with the total population of the domain of interest.}
 \item{nd}{a data frame with the sample size of the sampled domain of interest.}
