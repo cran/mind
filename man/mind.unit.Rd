@@ -36,6 +36,7 @@ Non\code{-NULL weights} can be used to indicate that different observations have
 
 \code{broadarea} represents the grupping factor specifying the partitioning of the data. If non\code{-NULL broadarea} is includes different \code{mind.unit} fits should be performed according to \code{broadarea}. Must be present in \code{universe}.
 
+
 }
 
 \value{
@@ -51,8 +52,8 @@ Non\code{-NULL weights} can be used to indicate that different observations have
 \item{beta}{a data frame with named columns of coefficents.}
 \item{mod_performance}{a list containing fit indices, absolute error metrics, tests of overall model significance (taking into account only the \code{fixed.terms}) for each modes of the \code{responses} and for each \code{broadarea} (if any).}
 \item{sigma_e}{a data frame with the residuals standard deviation \eqn{\sigma_e} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
-\item{sigma_u}{a data frame with the random effects standard deviation \eqn{\sigma_u} for each modes of the \code{responses} and for each \code{broadarea} (if any).}
-\item{ICC}{a data frame with the Intraclass Coefficent Correlation for each modes of the \code{responses} and for each \code{broadarea} (if any).
+\item{sigma_u}{a data frame with the random effects standard deviation \eqn{\sigma_u} for each modes of the \code{responses}, for each random effect and for each \code{broadarea} (if any).}
+\item{ICC}{a data frame with the Intraclass Coefficent Correlation for each modes of the \code{responses}, for each random effect and and for each \code{broadarea} (if any).
 The population ICC in this framework is:
 \deqn{ICC = \frac{\sigma_u^2}{(\sigma_u^2+\sigma_e^2)}}{%
         ICC = \sigma_u^2/(\sigma_u^2+\sigma_e^2)}
@@ -65,13 +66,13 @@ Developed by Michele D'Alo', Stefano Falorsi,  Andrea Fasulo
 Battese, G., E., Harter, R., M., Fuller, W., A., (1988). 'An Error-Components Model for Prediction of County Crop Areas Using Survey and
 Satellite Data', Journal of the American Statistical Association Vol. 83, No. 401 (Mar., 1988), pp. 28-36.
 
-Datta, G., S., Day, B., Basawa, I., (1999) 'Empirical best linear unbiased and empirical Bayes prediction in multivariate small area estimation', Journal of Statistical Planning and Inference, Volume 75, Issue 2, 1 January 1999, Pages 269-279
+Datta, G., S., Day, B., Basawa, I., (1999). 'Empirical best linear unbiased and empirical Bayes prediction in multivariate small area estimation', Journal of Statistical Planning and Inference, Volume 75, Issue 2, 1 January 1999, Pages 269-279
 
-D'Alo', M., Falorsi, S., (2021) 'Stimatori per modelli lineari misti multivariati Unit e Area levelbasati sulla procedura MIND'
 
-D'Alo', M., Falorsi, S., (forthcoming  2021) 'MIND: an advanced R System to study Unit and Area level Multivariate Linear Mixed Model'
+D'Alo', M., Falorsi, S., Fasulo, A., (2021). 'MIND, an R package for multivariate small area
+estimation with multiple random effects', SAE2021 BIG4small. Book of short papers, Pages 43-48
 
-ESSnet on SAE (2012). 'Guidelines for the application of the small area estimation methods in NSI sample surveys'
+ESSnet on SAE, (2012). 'Guidelines for the application of the small area estimation methods in NSI sample surveys'
 
 FAO (2021). 'Guidelines on data disaggregation for SDG Indicators using survey data', pp. 105. http://www.fao.org/publications/card/en/c/CB3253EN/
 
@@ -82,6 +83,10 @@ Kim, J. K., Rao, J. N., (2011). 'Combining data from two independent surveys: a 
 Rao, J.N., Molina, I., (2015). 'Small Area Estimation', John Wiley & Sons
 
 Saei, A., Chambers, R., (2003). 'Small Area Estimation Under Linear and Generalized Linear Mixed Models With Time and Area Effects', S3RI Methodology Working Paper M03/15
+}
+
+\seealso{
+\link{predict.mind} has examples of fitting multivariate variables.
 }
 \examples{
 # Load example data

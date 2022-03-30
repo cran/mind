@@ -6,7 +6,7 @@
 Synthetic sample dataset for Multivatiate Linear Mixed Model
 }
 \description{
-Synthetic data frame containing a sample of 10.000 individuals along with socio-economic indicators.
+Synthetic data frame containing a sample of 9962 individuals along with socio-economic indicators.
 }
 \usage{
 data(data_s)

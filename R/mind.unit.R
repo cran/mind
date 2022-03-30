@@ -1,3 +1,4 @@
+
 mind.unit<-function(formula,dom,data,universe,weights=NA,broadarea=NA,
                max_iter=200,max_diff=1e-05,phi_u0=0.05,
                REML=TRUE)
@@ -1453,10 +1454,9 @@ sigma_ej<-as.numeric(sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)])
 sigma_C<-sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)]
 
 sigma_e[[ba]]<-sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)]
-sigma_u_fin[[ba]]<-rowSums(t(phi_u)*sigma_ej) # phi in riga ha effetti in colonna modalità y
-ICC[[ba]]<-sigma_u_fin[[ba]]/(sigma_u_fin[[ba]]+sigma_ej)
+sigma_u_fin[[ba]]<-t(t(phi_u)*sigma_ej) ##
+ICC[[ba]]<-sigma_u_fin[[ba]]/t((t(sigma_u_fin[[ba]])+sigma_ej))
 
-phi_C<-phi_j[(phi_j$iter==max(phi_j$iter) & phi_j$fatt==n_z),-c(ncol(phi_j),(ncol(phi_j)-1))]
 Diag_sigma_C<-kronecker(diag(nrow(Z_piu)),diag(sigma_C), FUN = "*")
 
 G1<-Diag_sigma_C%*%Zr_piu_dom_kr%*%T_star%*%t(Zr_piu_dom_kr)
@@ -1529,14 +1529,14 @@ rm(list=setdiff(ls(), c("stima_omega_XZ_eblup_dom","stima_omega_XZ_proj_dom","st
   }
 
 stima_omega_XZ_eblup<-do.call(rbind,stima_omega_XZ_eblup_dom)
-colnames(stima_omega_XZ_eblup)[2:(1+n_y)]<-y_y
+colnames(stima_omega_XZ_eblup)<-c(dom,y_y)
 stima_omega_XZ_proj<-do.call(rbind,stima_omega_XZ_proj_dom)
-colnames(stima_omega_XZ_proj)[2:(1+n_y)]<-y_y
+colnames(stima_omega_XZ_proj)<-c(dom,y_y)
 stima_omega_X_proj<-do.call(rbind,stima_omega_X_proj_dom)
-colnames(stima_omega_X_proj)[2:(1+n_y)]<-y_y
+colnames(stima_omega_X_proj)<-c(dom,y_y)
 mse_EBLUP<-do.call(rbind,mse_EBLUP)
 mse_EBLUP<-cbind(dom=stima_omega_XZ_eblup[,1],mse_EBLUP)
-colnames(mse_EBLUP)[-1]<-c(paste("mse_",y_y,sep=""),
+colnames(mse_EBLUP)<-c(dom,paste("mse_",y_y,sep=""),
 paste("G1_",y_y,sep=""),
 paste("G2_",y_y,sep=""),
 paste("G3_",y_y,sep=""))
@@ -1548,7 +1548,7 @@ myfun2<-function(x,y){matrix(x,nrow=length(x)/y,ncol=y,byrow=T)}
 u_omegaa<-lapply(u_omegaa,myfun2,y=n_y)
 
 cv_EBLUP<-cbind(dom=stima_omega_XZ_eblup[,1],cv_EBLUP)
-colnames(cv_EBLUP)[2:ncol(cv_EBLUP)]<-paste("CV_",y_y,sep="")
+colnames(cv_EBLUP)<-c(dom,paste("CV_",y_y,sep=""))
 Nd<-cbind(dom=Z_piuua1[,1],Nd=Z_piuua1[,2])
 nd<-do.call(rbind,n_d)
 
@@ -1592,16 +1592,19 @@ sigma_u_fin<-as.data.frame(do.call(rbind,sigma_u_fin))
 colnames(sigma_u_fin)<-paste("sigma_u_",y_y)
 sigma_u_fin<-sqrt(sigma_u_fin)
 sigma_u_fin[,broadarea]<-unique(macro[,broadarea])
+sigma_u_fin$re<-rep(z_z,ba)
 
 ICC<-as.data.frame(do.call(rbind,ICC))
 colnames(ICC)<-paste("ICC_",y_y)
 ICC[,broadarea]<-unique(macro[,broadarea])
+ICC$re<-rep(z_z,ba)
 
 out<-list(EBLUP=stima_omega_XZ_eblup,PROJ=stima_omega_XZ_proj,SYNTH=stima_omega_X_proj,
           mse_EBLUP=as.data.frame(mse_EBLUP),cv_EBLUP=as.data.frame(cv_EBLUP),Nd=as.data.frame(Nd),nd=nd,r_effect=r_effect,
           beta=beta_omega_broad,mod_performance=mod_perf,sigma_e=sigma_e,sigma_u=sigma_u_fin,ICC=ICC)
 
 class(out)<-"mind"
+
 return(out)
 
 }
