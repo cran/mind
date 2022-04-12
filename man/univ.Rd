@@ -11,7 +11,7 @@ Synthetic population data frame containing the complete list of the units belong
 data(univ)
 }
 \format{
-   A data frame with 514320 observations on 8 variables:
+   A data frame with 514320 observations on 7 variables:
   \describe{
     \item{\code{dom}}{domain of interest codes}
     \item{\code{sexage}}{cross classification of age and sex}

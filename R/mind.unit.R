@@ -47,8 +47,15 @@ allvars<-all.vars(formula)
 
 # Trovo le y
 
-y_y<-trimws(as.vector(unlist(genXtract(as.character(formula),"cbind(",")"))))
-if(length(y_y)==0)
+y_y<-unlist(strsplit(as.character(formula)[2], split='cbind(', fixed=TRUE))
+if (length(y_y)==2){
+  y_y<-y_y[[2]]
+}else{
+  y_y<-NULL
+}
+
+#y_y<-trimws(as.vector(unlist(genXtract(as.character(formula),"cbind(",")"))))
+if(is.null(y_y))
 {
   y_y<-allvars[1]
   ncols<-ncol(data_all)
@@ -67,7 +74,11 @@ n_y<-length(y_y)
 
 # Trovo le z
 
-z_z<-trimws(as.vector(unlist(genXtract(as.character(formula),"|",")"))))
+#z_z<-trimws(as.vector(unlist(genXtract(as.character(formula),"|",")"))))
+z1<-trimws(unlist(strsplit(as.character(formula)[3], '[+]')))
+z2<-trimws(gsub(".*[|]([^)]+)[)].*", "\\1", z1))
+z_z<-z2[z2!=z1]
+
 n_z<-length(z_z)
 
 # Trovo le x

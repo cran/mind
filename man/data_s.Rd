@@ -12,7 +12,7 @@ Synthetic data frame containing a sample of 9962 individuals along with socio-ec
 data(data_s)
 }
 \format{
-  A data frame with 10000 observations on 11 variables:
+  A data frame with 9962 observations on 10 variables:
   \describe{
     \item{\code{dom}}{domain of interest codes, corresponding to the munipal codes}
     \item{\code{emp}}{binary variable, 1 for employed 0 otherwise}
