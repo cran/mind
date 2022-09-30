@@ -2,7 +2,7 @@
 predict.mind<-function(object,data,type ="proj",dir_s=NULL,dir_cov=NULL,...)
 
 {
-  if (class(object)!="mind") stop(paste("no applicable method for 'predict.mind' applied to an object of class '",class(object),"'",sep=""))
+  if(!is(object,"mind")) stop(paste("no applicable method for 'predict.mind' applied to an object of class '",class(object),"'",sep=""))
   if (!(type%in%c("eblup","proj","synth"))) stop("'arg'should be one of 'eblup', 'proj', 'synth'")
   if (type=="eblup" & is.null(dir)) stop("when 'eblup' is selected 'dir' must be provided. See 'Details' for more info")
       

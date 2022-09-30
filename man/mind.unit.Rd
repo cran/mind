@@ -6,7 +6,7 @@
 }
 \usage{
 mind.unit(formula,dom,data,universe,weights=NA,broadarea=NA,
-max_iter=200,max_diff=1e-05,phi_u0=0.05,REML=TRUE)
+max_iter=200,max_diff=1e-05,phi_u0=0.05,MSE=TRUE,REML=TRUE)
 }
 \arguments{
 \item{formula}{an object of class "formula": a symbolic description of the model to be fitted. The details of model specification are given under 'Details'.}
@@ -18,6 +18,7 @@ max_iter=200,max_diff=1e-05,phi_u0=0.05,REML=TRUE)
 \item{max_iter}{integer scalar. Numeber of maximum iteration for the optimization of the REML criterion (default=200) .}
 \item{max_diff}{double number. Stopping criteria to be satisfied to achieve the REML convergence (defualt=1e-05).}
 \item{phi_u0}{double number. Initialization value for the ratio among the variance components effect and the variance of the errors [Saei, Chambers 2003] (defualt=0.05)}
+\item{MSE}{logical scalar. Should the MSE be computed (defualt=TRUE)?}
 \item{REML}{logical scalar. Should the estimates be chosen to optimize the REML criterion (as opposed to the maximum-likelihood)?}
 }
 \details{

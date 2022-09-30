@@ -1,11 +1,11 @@
-b560df50aeae286aaf4c802ffa934ff6 *DESCRIPTION
-544a4d13615c4c08435ea980f301a211 *NAMESPACE
-bb50b078f305dbf18336e61aca140869 *R/mind.unit.R
-03d429645a57e995cc07755489f069eb *R/predict.mind.R
+fd63fb4fc7d64cb4b199e77b7000b36a *DESCRIPTION
+6181f7508c6e6addca42a1d412b6afb4 *NAMESPACE
+2ffa5f797109de7ac7ec7175337ff380 *R/mind.unit.R
+25530fb528d1a342da7d7474012b5ff4 *R/predict.mind.R
 3a9cd04b3ec8dd3271eda16260e7255b *data/data_s.rda
 e746b01bd2ea69829fa4ee99ba8f9657 *data/datalist
 2eba9c8e3e3c2f04eb3f940a6fa2836f *data/univ.rda
 67f2d6f4bb8bf344be56fd3a263bf5e2 *man/data_s.Rd
-b1242759ccee86ec5572cfac752ffb9e *man/mind.unit.Rd
-28d7a1bf466660f84cd2bc3e500beb19 *man/predict.mind.Rd
+2eae616dff50ab507bddb10b5eafef66 *man/mind.unit.Rd
+6677c7eb24a7c9054b25df5a17d00aca *man/predict.mind.Rd
 ea7c334edc2c26204b5dc4d04dfa6f43 *man/univ.Rd

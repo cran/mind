@@ -1,7 +1,7 @@
 
 mind.unit<-function(formula,dom,data,universe,weights=NA,broadarea=NA,
                max_iter=200,max_diff=1e-05,phi_u0=0.05,
-               REML=TRUE)
+               MSE=TRUE,REML=TRUE)
   {
 
   rho_u0=0.05
@@ -1191,7 +1191,8 @@ stima_omega_X_proj_dom[[ba]]<-cbind(data.frame(dom=domains),stima_omega_X_proj)
 #############################
 ############# MSE
 #############################
-
+if (MSE==TRUE)
+{
 univ_xzd$n<-1
 univ_xzd$w_inv<-univ_xzd[,weights]^(-1)
 data_xzd$w_inv<-data_xzd[,weights]^(-1)
@@ -1504,17 +1505,23 @@ mse_BLUP<-matrix(mse_BLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
 
 mse_EBLUP1<-diag(MCPE_EBLUP)
 mse_EBLUP11<-matrix(mse_EBLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
-#mse_EBLUP[[ba]]<-matrix(mse_EBLUP1,nrow=nrow(Z_piu),ncol=n_y,byrow=TRUE)
 mse_EBLUP[[ba]]<-cbind(mse_EBLUP11,g1,g2,g3)
 
 Z_piuu[[ba]]<-Z_piu
 cv_BLUP<-100*mse_BLUP11^0.5/stima_omega_XZ_eblup
 cv_EBLUP[[ba]]<-100*mse_EBLUP11^0.5/stima_omega_XZ_eblup
 
-# cv_g1<-100*g1^0.5/stima_omega_XZ_eblup
-# cv_g2<-100*g2^0.5/stima_omega_XZ_eblup
-# cv_g3<-100*g3^0.5/stima_omega_XZ_eblup
-# cv_g4<-100*g4^0.5/stima_omega_XZ_eblup
+} # CHIUDO MSE
+
+if (MSE==FALSE)
+{
+  sigma_ej<-as.numeric(sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)])
+  sigma_C<-sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)]
+  
+  sigma_e[[ba]]<-sigma_j[sigma_j$iter==max(sigma_j$iter),-ncol(sigma_j)]
+  sigma_u_fin[[ba]]<-t(t(phi_u)*sigma_ej) ##
+  ICC[[ba]]<-sigma_u_fin[[ba]]/t((t(sigma_u_fin[[ba]])+sigma_ej))
+}
 
 n_d[[ba]]<-aggregate(as.formula(paste(weights,"~",dom,sep="")),data,sum)
 colnames(n_d[[ba]])<-c("dom","nd")
@@ -1536,15 +1543,23 @@ rm(list=setdiff(ls(), c("stima_omega_XZ_eblup_dom","stima_omega_XZ_proj_dom","st
                         "data","data_all","macro","universe","univ_all","ba","bba","broadarea","dom","formula","id","weights",
                         "max_iter","max_diff","phi_u0","rho_u0","REML","domains2","myfun",
                         "mse_EBLUP","Z_piuu","cv_EBLUP","u_omegaa","n_z","z_i","n_y","n_d","y_y","z_z","x_x","n_x","x_i","beta_omega_broad",
-                        "r_effect","sigma_e","sigma_u_fin","ICC","z_i_list","mod_perf","int1")))
+                        "r_effect","sigma_e","sigma_u_fin","ICC","z_i_list","mod_perf","int1","MSE")))
   }
 
+gc()
 stima_omega_XZ_eblup<-do.call(rbind,stima_omega_XZ_eblup_dom)
 colnames(stima_omega_XZ_eblup)<-c(dom,y_y)
 stima_omega_XZ_proj<-do.call(rbind,stima_omega_XZ_proj_dom)
 colnames(stima_omega_XZ_proj)<-c(dom,y_y)
 stima_omega_X_proj<-do.call(rbind,stima_omega_X_proj_dom)
 colnames(stima_omega_X_proj)<-c(dom,y_y)
+
+Z_piuua1<-aggregate(as.formula(paste(weights,"~",dom,sep="")),universe,sum)
+myfun2<-function(x,y){matrix(x,nrow=length(x)/y,ncol=y,byrow=T)}
+u_omegaa<-lapply(u_omegaa,myfun2,y=n_y)
+
+if (MSE==TRUE)
+{
 mse_EBLUP<-do.call(rbind,mse_EBLUP)
 mse_EBLUP<-cbind(dom=stima_omega_XZ_eblup[,1],mse_EBLUP)
 colnames(mse_EBLUP)<-c(dom,paste("mse_",y_y,sep=""),
@@ -1552,14 +1567,12 @@ paste("G1_",y_y,sep=""),
 paste("G2_",y_y,sep=""),
 paste("G3_",y_y,sep=""))
 
-
-Z_piuua1<-aggregate(as.formula(paste(weights,"~",dom,sep="")),universe,sum)
 cv_EBLUP<-do.call(rbind,cv_EBLUP)
-myfun2<-function(x,y){matrix(x,nrow=length(x)/y,ncol=y,byrow=T)}
-u_omegaa<-lapply(u_omegaa,myfun2,y=n_y)
 
 cv_EBLUP<-cbind(dom=stima_omega_XZ_eblup[,1],cv_EBLUP)
 colnames(cv_EBLUP)<-c(dom,paste("CV_",y_y,sep=""))
+}
+
 Nd<-cbind(dom=Z_piuua1[,1],Nd=Z_piuua1[,2])
 nd<-do.call(rbind,n_d)
 
@@ -1582,7 +1595,6 @@ if(any(sort(x_i)==1)){nomi_beta<-sort(x_i)
   nomi_beta[2:length(nomi_beta)]<-nomi_beta[2:length(nomi_beta)]-1
   }
 beta_omega_broad<-do.call(cbind,beta_omega_broad)
-#beta_omega_broad<-data.frame(cbind(y=rep(y_y,time=length(names(fixef(mod_lmer[[1]])))),
 beta_omega_broad<-data.frame(cbind(y=rep(y_y,time=dim(beta_omega_broad)[1]/n_y),
                                    
                                    fixed=paste(rep(rep(names(nomi_beta),times=nomi_beta),each=n_y),

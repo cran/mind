@@ -34,7 +34,7 @@ data(data_s);data(univ)
 # The sample units cover 104 over 333 domains in the population data frame
 length(unique(data_s$dom));length(unique(univ$dom))
 \donttest{
-## Example 1
+
 # One random effect at domain level
 formula<-as.formula(cbind(emp,unemp,inact)~(1|mun)+
 factor(sexage)+factor(edu)+factor(fore))
@@ -44,6 +44,7 @@ univ_1<-univ[,-6]
 
 example.1<-mind.unit(formula=formula,dom="dom",data=data_s,universe=univ_1)
 
+## Example 1
 #Projection predictions
 example.1.predict<-predict.mind(object=example.1,data=univ,type= "proj")
 
@@ -53,6 +54,7 @@ ck<-cbind(univ,example.1.predict)
 ck<-aggregate(cbind(emp,unemp,inact)~dom,ck,sum)
 head(ck);head(example.1$PROJ)
 
+## Example 2
 #Synthetic predictions
 example.1.synth<-predict.mind(object=example.1,data=univ,type="synth")
   
@@ -62,6 +64,7 @@ ck<-cbind(univ,example.1.synth)
 ck<-aggregate(cbind(emp,unemp,inact)~dom,ck,sum)
 head(ck);head(example.1$SYNTH)
 
+## Example 3
 #EBLUP predictions
 inp_1<-aggregate(cbind(emp,unemp,inact)~dom+mun+sexage + edu + fore,data_s,sum)
   
@@ -69,8 +72,8 @@ inp_2<-aggregate(emp+unemp+inact~dom+mun+sexage+edu +fore,data_s,sum)
   
 example.1.eblup<-predict.mind(object=example.1,data=univ_1,type="eblup",dir_s=inp_1,dir_cov=inp_2)
   
-# Check if the sum of the unit level predictions at 
-# domain level are equal to the mind.unit Elup predictions
+# Check if the sum of the predictions at 
+# profile level are equal to the mind.unit Eblup predictions
 ck<-aggregate(cbind(emp,unemp,inact)~dom,example.1.eblup,sum)
 head(ck);head(example.1$EBLUP)
 
