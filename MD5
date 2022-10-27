@@ -1,10 +1,12 @@
-fd63fb4fc7d64cb4b199e77b7000b36a *DESCRIPTION
+a77eaf48d7dc3a6a92267dc57b735214 *DESCRIPTION
 6181f7508c6e6addca42a1d412b6afb4 *NAMESPACE
+8faa82f59899fb3229ba4852048f1d3a *R/benchSAE.R
 2ffa5f797109de7ac7ec7175337ff380 *R/mind.unit.R
 25530fb528d1a342da7d7474012b5ff4 *R/predict.mind.R
 3a9cd04b3ec8dd3271eda16260e7255b *data/data_s.rda
 e746b01bd2ea69829fa4ee99ba8f9657 *data/datalist
 2eba9c8e3e3c2f04eb3f940a6fa2836f *data/univ.rda
+d048b7124b01a0f0717accf636d69a1b *man/benchSAE.Rd
 67f2d6f4bb8bf344be56fd3a263bf5e2 *man/data_s.Rd
 2eae616dff50ab507bddb10b5eafef66 *man/mind.unit.Rd
 6677c7eb24a7c9054b25df5a17d00aca *man/predict.mind.Rd

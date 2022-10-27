@@ -1,7 +1,7 @@
 Package: mind
 Type: Package
 Title: Multivariate Model Based Inference for Domains
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: 
     c(person(given = "Michele",
              family = "D'Alo'",
@@ -27,6 +27,6 @@ Author: Michele D'Alo' [aut],
 Maintainer: Andrea Fasulo <fasulo@istat.it>
 BuildResaveData: best
 RoxygenNote: 7.1.1
-Packaged: 2022-09-30 09:43:25 UTC; fasul
+Packaged: 2022-10-27 10:55:43 UTC; fasul
 Repository: CRAN
-Date/Publication: 2022-09-30 10:20:02 UTC
+Date/Publication: 2022-10-27 11:32:36 UTC
